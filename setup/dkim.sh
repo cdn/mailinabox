@@ -36,6 +36,9 @@ RequireSafeKeys         false
 EOF
 fi
 
+tools/editconf.py /etc/default/opendkim \
+    SOCKET=\"inet:8891@127.0.0.1\"
+
 # Create a new DKIM key. This creates mail.private and mail.txt
 # in $STORAGE_ROOT/mail/dkim. The former is the private key and
 # the latter is the suggested DNS TXT entry which we'll include

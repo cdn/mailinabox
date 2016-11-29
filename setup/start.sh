@@ -100,7 +100,7 @@ source setup/system.sh
 source setup/ssl.sh
 source setup/dns.sh
 source setup/mail-postfix.sh
-source setup/mail-dovecot.sh
+source setup/mail-dovecot.sh  # 2.3 from source breaks antispam at present (sieve needs to be configured)
 source setup/mail-users.sh
 source setup/dkim.sh
 source setup/spamassassin.sh

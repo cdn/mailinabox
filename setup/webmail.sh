@@ -22,7 +22,7 @@ source /etc/mailinabox.conf # load global vars
 echo "Installing Roundcube (webmail)..."
 apt_install \
 	dbconfig-common \
-	php5 php5-sqlite php5-mcrypt php5-intl php5-json php5-common php-auth php-net-smtp php-net-socket php-net-sieve php-mail-mime php-crypt-gpg php5-gd php5-pspell \
+	php php-sqlite3 php-mcrypt php-intl php-json php-common php-auth php-net-smtp php-net-socket php-net-sieve php-mail-mime php-crypt-gpg php-gd php-pspell \
 	tinymce libjs-jquery libjs-jquery-mousewheel libmagic1
 apt_get_quiet remove php-mail-mimedecode # no longer needed since Roundcube 1.1.3
 
@@ -157,12 +157,12 @@ usermod -a -G dovecot www-data
 # could use dovecot instead of www-data, but not sure it matters
 chown root.www-data $STORAGE_ROOT/mail
 chmod 775 $STORAGE_ROOT/mail
-chown root.www-data $STORAGE_ROOT/mail/users.sqlite 
-chmod 664 $STORAGE_ROOT/mail/users.sqlite 
+chown root.www-data $STORAGE_ROOT/mail/users.sqlite
+chmod 664 $STORAGE_ROOT/mail/users.sqlite
 
 # Run Roundcube database migration script (database is created if it does not exist)
 /usr/local/lib/roundcubemail/bin/updatedb.sh --dir /usr/local/lib/roundcubemail/SQL --package roundcube
 
 # Enable PHP modules.
-php5enmod mcrypt
-restart_service php5-fpm
+phpenmod mcrypt
+restart_service php7.0-fpm

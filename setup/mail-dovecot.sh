@@ -18,6 +18,7 @@
 source setup/functions.sh # load our functions
 source /etc/mailinabox.conf # load global vars
 
+# Building 2.3 from source gets us +-_ (multiple delimiters)
 
 # Install packages for dovecot. These are all core dovecot plugins,
 # but dovecot-lucene is packaged by *us* in the Mail-in-a-Box PPA,
@@ -26,7 +27,9 @@ source /etc/mailinabox.conf # load global vars
 echo "Installing Dovecot (IMAP server)..."
 apt_install \
 	dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-sqlite sqlite3 \
-	dovecot-sieve dovecot-managesieved dovecot-lucene
+	dovecot-sieve dovecot-managesieved
+
+# dovecot-lucene is a dummy package
 
 # The `dovecot-imapd`, `dovecot-pop3d`, and `dovecot-lmtpd` packages automatically
 # enable IMAP, POP and LMTP protocols.
@@ -103,14 +106,14 @@ tools/editconf.py /etc/dovecot/conf.d/20-pop3.conf \
 
 # Full Text Search - Enable full text search of mail using dovecot's lucene plugin,
 # which *we* package and distribute (dovecot-lucene package).
-tools/editconf.py /etc/dovecot/conf.d/10-mail.conf \
-	mail_plugins="\$mail_plugins fts fts_lucene"
-cat > /etc/dovecot/conf.d/90-plugin-fts.conf << EOF;
-plugin {
-  fts = lucene
-  fts_lucene = whitespace_chars=@.
-}
-EOF
+#tools/editconf.py /etc/dovecot/conf.d/10-mail.conf \
+#	mail_plugins="\$mail_plugins fts fts_lucene"
+#cat > /etc/dovecot/conf.d/90-plugin-fts.conf << EOF;
+#plugin {
+#  fts = lucene
+#  fts_lucene = whitespace_chars=@.
+#}
+#EOF
 
 # ### LDA (LMTP)
 
@@ -147,7 +150,7 @@ tools/editconf.py /etc/dovecot/conf.d/15-lda.conf \
 
 # ### Sieve
 
-# Enable the Dovecot sieve plugin which let's users run scripts that process
+# Enable the Dovecot sieve plugin which lets users run scripts that process
 # mail as it comes in.
 sed -i "s/#mail_plugins = .*/mail_plugins = \$mail_plugins sieve/" /etc/dovecot/conf.d/20-lmtp.conf
 

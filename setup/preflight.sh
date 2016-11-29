@@ -7,8 +7,8 @@ if [[ $EUID -ne 0 ]]; then
 	exit
 fi
 
-# Check that we are running on Ubuntu 14.04 LTS (or 14.04.xx).
-if [ "`lsb_release -d | sed 's/.*:\s*//' | sed 's/14\.04\.[0-9]/14.04/' `" != "Ubuntu 14.04 LTS" ]; then
+# Check that we are running on Ubuntu 14.04 LTS (or 16.04.xx).
+if [ "`lsb_release -d | sed 's/.*:\s*//' | sed 's/16\.04\.[0-9]/16.04/' `" != "Ubuntu 16.04 LTS" ]; then
 	echo "Mail-in-a-Box only supports being installed on Ubuntu 14.04, sorry. You are running:"
 	echo
 	lsb_release -d | sed 's/.*:\s*//'
@@ -58,6 +58,7 @@ fi
 #
 # Set ARM=1 to ignore this check if you have built the packages yourself. If you do this
 # you are on your own!
+ARM=1
 ARCHITECTURE=$(uname -m)
 if [ "$ARCHITECTURE" != "x86_64" ] && [ "$ARCHITECTURE" != "i686" ]; then
 if [ -z "$ARM" ]; then
